@@ -9,6 +9,21 @@ export const fadeInUp: Variants = {
   }
 };
 
+export const cinematicSlideIn: Variants = {
+  hidden: { opacity: 0, y: 40, scale: 0.98 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+  },
+  exit: {
+    opacity: 0,
+    y: -20,
+    transition: { duration: 0.4, ease: 'easeInOut' }
+  }
+};
+
 export const fadeIn: Variants = {
   hidden: { opacity: 0 },
   visible: { 
@@ -26,6 +41,33 @@ export const glitchVariants: Variants = {
       duration: 0.3,
       times: [0, 0.2, 0.4, 0.6, 0.8, 1]
     }
+  }
+};
+
+export const goldShimmer: Variants = {
+  hidden: { opacity: 0, x: '-120%' },
+  visible: {
+    opacity: [0, 1, 0],
+    x: ['-120%', '120%'],
+    transition: { duration: 1.6, ease: 'easeInOut' }
+  }
+};
+
+export const lightSweep: Variants = {
+  hidden: { opacity: 0, x: '-140%' },
+  visible: {
+    opacity: [0, 1, 0],
+    x: ['-140%', '140%'],
+    transition: { duration: 2, ease: [0.34, 1.56, 0.64, 1] }
+  }
+};
+
+export const energyBurst: Variants = {
+  hidden: { opacity: 0, scale: 0.6 },
+  visible: {
+    opacity: [0, 1, 0],
+    scale: [0.6, 1.1, 1.6],
+    transition: { duration: 0.8, ease: 'easeOut' }
   }
 };
 
@@ -47,6 +89,24 @@ export const slideInFromRight: Variants = {
   }
 };
 
+export const cinematicSlideInLeft: Variants = {
+  hidden: { x: -80, opacity: 0 },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] }
+  }
+};
+
+export const cinematicSlideInRight: Variants = {
+  hidden: { x: 80, opacity: 0 },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] }
+  }
+};
+
 export const pulseGlow: Variants = {
   initial: { opacity: 0.6 },
   animate: {
@@ -65,6 +125,14 @@ export const borderSweep = {
     pathLength: 1, 
     opacity: 1,
     transition: { duration: 0.8, ease: 'easeInOut' }
+  }
+};
+
+export const tealPulse: Variants = {
+  initial: { opacity: 0.4 },
+  animate: {
+    opacity: [0.4, 1, 0.4],
+    transition: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }
   }
 };
 

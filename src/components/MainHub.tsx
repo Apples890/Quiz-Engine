@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
 import NeonButton from './ui/NeonButton';
-import GlitchText from './ui/GlitchText';
+import FramePanel from './ui/FramePanel';
 import { audioSystem } from '@/lib/audioSystem';
 import { Volume2, VolumeX } from 'lucide-react';
 import { useState } from 'react';
+import { cinematicSlideIn, goldShimmer } from '@/lib/animations';
 
 interface MainHubProps {
   playerName: string;
@@ -23,109 +24,82 @@ export default function MainHub({ playerName, onStart }: MainHubProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background */}
+    <div className="min-h-screen mlbb-screen flex items-center justify-center p-4 relative overflow-hidden">
       <div className="absolute inset-0">
-        <img 
-          src="https://mgx-backend-cdn.metadl.com/generate/images/940159/2026-01-29/93680123-01bb-462d-b894-4974334da6e9.png"
-          alt="Cyberpunk City"
-          className="w-full h-full object-cover opacity-40"
-        />
-      </div>
-
-      {/* Animated particles */}
-      <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-cyan-400 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -100],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
+        <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top,rgba(98,214,232,0.14),transparent_60%)]" />
+        <div className="absolute inset-0 opacity-25 bg-[linear-gradient(140deg,rgba(245,196,81,0.1),transparent_50%)]" />
       </div>
 
       <motion.div
-        className="relative z-10 text-center max-w-4xl w-full"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6 }}
+        className="relative z-10 w-full max-w-4xl"
+        initial="hidden"
+        animate="visible"
+        variants={cinematicSlideIn}
       >
-        <motion.div
-          className="mb-4 text-cyan-400/80 font-share-tech text-lg"
-          animate={{ opacity: [0.8, 1, 0.8] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          WELCOME, {playerName}
-        </motion.div>
-
-        <GlitchText className="text-7xl md:text-8xl font-orbitron font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-500 to-cyan-400">
-          MLBB
-        </GlitchText>
-
-        <motion.h2 
-          className="text-4xl md:text-5xl font-orbitron font-bold text-pink-500 mb-8"
-          animate={{ 
-            textShadow: [
-              '0 0 20px rgba(255,0,110,0.5)',
-              '0 0 40px rgba(255,0,110,0.8)',
-              '0 0 20px rgba(255,0,110,0.5)',
-            ]
-          }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          ULTIMATE QUIZ
-        </motion.h2>
-
-        <div className="mb-12 space-y-3">
-          <motion.div 
-            className="text-yellow-400 font-rajdhani font-bold text-2xl tracking-wider"
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+        <FramePanel className="relative overflow-hidden">
+          <motion.div
+            className="pointer-events-none absolute inset-0"
+            variants={goldShimmer}
+            initial="hidden"
+            animate="visible"
           >
-            ⚡ EXTREME EDITION ⚡
+            <div className="absolute inset-0 bg-[var(--mlbb-gold-sheen)]" />
           </motion.div>
-          <div className="text-cyan-400 font-rajdhani text-xl">
-            6 ROUNDS • SUDDEN DEATH • SHUFFLE ENABLED
-          </div>
-          <div className="text-pink-500 font-rajdhani text-lg">
-            ONE WRONG ANSWER = GAME OVER
-          </div>
-        </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-          <NeonButton onClick={onStart} variant="primary" className="min-w-[200px]">
-            START RUN
-          </NeonButton>
-          
-          <motion.button
-            onClick={toggleSound}
-            className="border-2 border-cyan-400 text-cyan-400 p-4 hover:bg-cyan-400 hover:text-black transition-all duration-300"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+          <div className="text-center">
+            <div className="text-[var(--mlbb-muted)] font-share-tech text-sm tracking-[0.4em]">
+              COMMAND CENTER
+            </div>
+            <div className="mt-2 text-2xl md:text-3xl font-rajdhani font-semibold text-[var(--mlbb-text)]">
+              WELCOME, {playerName}
+            </div>
+
+            <div className="mt-6 text-5xl md:text-6xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-[var(--mlbb-gold)] via-[var(--mlbb-teal)] to-[var(--mlbb-gold-soft)]">
+              MLBB QUIZ
+            </div>
+            <div className="mt-3 text-xl md:text-2xl font-orbitron font-bold text-[var(--mlbb-teal)]">
+              ESPORTS CHALLENGE
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-3 text-center">
+            <div className="text-[var(--mlbb-gold)] font-rajdhani font-bold text-xl tracking-widest">
+              ⚔️ EXTREME SERIES ⚔️
+            </div>
+            <div className="text-[var(--mlbb-text)] font-rajdhani text-lg">
+              6 ROUNDS • SUDDEN DEATH • SHUFFLE ENABLED
+            </div>
+            <div className="text-[var(--mlbb-danger)] font-rajdhani text-base">
+              ONE WRONG ANSWER = DEFEAT
+            </div>
+          </div>
+
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <NeonButton onClick={onStart} variant="primary" className="min-w-[200px]">
+              ENTER MATCH
+            </NeonButton>
+
+            <motion.button
+              onClick={toggleSound}
+              className="mlbb-focus-ring relative inline-flex items-center gap-2 rounded-xl border border-[rgba(245,196,81,0.4)] px-5 py-3 text-[var(--mlbb-gold)] bg-[rgba(9,15,34,0.7)] hover:bg-[rgba(245,196,81,0.15)] transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {soundEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
+              <span className="text-sm font-share-tech tracking-[0.2em]">
+                SOUND {soundEnabled ? 'ON' : 'OFF'}
+              </span>
+            </motion.button>
+          </div>
+
+          <motion.div
+            className="mt-8 text-center text-[var(--mlbb-muted)] font-share-tech text-sm"
+            animate={{ opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 2, repeat: Infinity }}
           >
-            {soundEnabled ? <Volume2 size={24} /> : <VolumeX size={24} />}
-          </motion.button>
-        </div>
-
-        <motion.div
-          className="text-cyan-400/60 font-share-tech text-sm"
-          animate={{ opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          PRESS START WHEN READY
-        </motion.div>
+            PRESS ENTER MATCH WHEN READY
+          </motion.div>
+        </FramePanel>
       </motion.div>
     </div>
   );

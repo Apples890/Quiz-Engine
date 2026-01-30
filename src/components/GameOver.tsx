@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import NeonPanel from './ui/NeonPanel';
+import FramePanel from './ui/FramePanel';
 import NeonButton from './ui/NeonButton';
 import GlitchText from './ui/GlitchText';
 import { screenShake } from '@/lib/animations';
@@ -14,77 +14,69 @@ interface GameOverProps {
 
 export default function GameOver({ playerName, score, totalRounds, onRetry, onMainHub }: GameOverProps) {
   return (
-    <motion.div 
-      className="min-h-screen bg-[#0A0A0F] flex items-center justify-center p-4 relative overflow-hidden"
+    <motion.div
+      className="min-h-screen mlbb-screen flex items-center justify-center p-4 relative overflow-hidden"
       variants={screenShake}
       initial="shake"
     >
-      {/* Glitch overlay */}
       <div className="absolute inset-0">
-        <img 
-          src="https://mgx-backend-cdn.metadl.com/generate/images/940159/2026-01-29/20162957-fc84-41de-8707-48dafdccb6b8.png"
-          alt="Glitch"
-          className="w-full h-full object-cover opacity-30 mix-blend-screen"
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,77,93,0.3),transparent_70%)]" />
+        <div className="absolute inset-0 opacity-30 mix-blend-screen">
+          <div className="w-full h-full bg-[linear-gradient(120deg,rgba(255,77,93,0.2),transparent_45%,rgba(98,214,232,0.1))]" />
+        </div>
+        <motion.div
+          className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,77,93,0.35),transparent_70%)]"
+          animate={{ opacity: [0.3, 0.8, 0.3] }}
+          transition={{ duration: 1.2, repeat: Infinity }}
         />
       </div>
-
-      {/* Red vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(255,0,64,0.3)_100%)]" />
 
       <motion.div
         className="relative z-10 w-full max-w-2xl"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
       >
         <motion.div
           className="text-center mb-8"
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.3 }}
         >
-          <GlitchText className="text-7xl font-orbitron font-black text-red-500 mb-4" animate>
-            SYSTEM FAILURE
+          <GlitchText className="text-6xl md:text-7xl font-orbitron font-black text-[var(--mlbb-danger)] mb-4" animate>
+            DEFEATED
           </GlitchText>
-          <div className="text-yellow-400 font-share-tech text-xl">
+          <div className="text-[var(--mlbb-gold)] font-share-tech text-lg">
             ⚠ INCORRECT ANSWER DETECTED ⚠
           </div>
         </motion.div>
 
-        <NeonPanel glowColor="pink" className="mb-8">
+        <FramePanel tone="danger" className="mb-8">
           <div className="text-center space-y-6">
             <div>
-              <div className="text-cyan-400/80 font-share-tech text-sm mb-2">
-                PLAYER
-              </div>
-              <div className="text-3xl font-orbitron font-bold text-white">
-                {playerName}
-              </div>
+              <div className="text-[var(--mlbb-muted)] font-share-tech text-sm mb-2">PLAYER</div>
+              <div className="text-3xl font-orbitron font-bold text-[var(--mlbb-text)]">{playerName}</div>
             </div>
 
-            <div className="border-t border-pink-500/30 pt-6">
-              <div className="text-cyan-400/80 font-share-tech text-sm mb-2">
-                ROUNDS CLEARED
-              </div>
-              <div className="text-6xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-red-500">
+            <div className="border-t border-[rgba(255,77,93,0.3)] pt-6">
+              <div className="text-[var(--mlbb-muted)] font-share-tech text-sm mb-2">ROUNDS CLEARED</div>
+              <div className="text-5xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-[var(--mlbb-danger)] to-[var(--mlbb-gold)]">
                 {score}/{totalRounds}
               </div>
             </div>
 
-            <div className="border-t border-pink-500/30 pt-6">
-              <div className="text-cyan-400/80 font-share-tech text-sm mb-2">
-                FINAL SCORE
-              </div>
+            <div className="border-t border-[rgba(255,77,93,0.3)] pt-6">
+              <div className="text-[var(--mlbb-muted)] font-share-tech text-sm mb-2">FINAL SCORE</div>
               <motion.div
-                className="text-5xl font-orbitron font-black text-pink-500"
-                animate={{ scale: [1, 1.1, 1] }}
+                className="text-4xl font-orbitron font-black text-[var(--mlbb-danger)]"
+                animate={{ scale: [1, 1.08, 1] }}
                 transition={{ duration: 1, repeat: Infinity }}
               >
                 {score}
               </motion.div>
             </div>
           </div>
-        </NeonPanel>
+        </FramePanel>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <NeonButton onClick={onRetry} variant="primary">
@@ -96,11 +88,11 @@ export default function GameOver({ playerName, score, totalRounds, onRetry, onMa
         </div>
 
         <motion.div
-          className="text-center mt-8 text-red-500/60 font-share-tech text-sm"
+          className="text-center mt-8 text-[var(--mlbb-danger)]/80 font-share-tech text-sm"
           animate={{ opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
+          transition={{ duration: 1.4, repeat: Infinity }}
         >
-          CONNECTION TERMINATED
+          COMMS LINK DISENGAGED
         </motion.div>
       </motion.div>
     </motion.div>

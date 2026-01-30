@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { QuizRound } from '@/data/quizData';
-import GlitchText from './ui/GlitchText';
+import FramePanel from './ui/FramePanel';
+import { cinematicSlideIn, lightSweep } from '@/lib/animations';
 
 interface RoundIntroProps {
   round: QuizRound;
@@ -20,66 +21,66 @@ export default function RoundIntro({ round, roundNumber, totalRounds, onComplete
   }, [onComplete]);
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background */}
+    <div className="min-h-screen mlbb-screen flex items-center justify-center p-4 relative overflow-hidden">
       <div className="absolute inset-0">
-        <img 
-          src="https://mgx-backend-cdn.metadl.com/generate/images/940159/2026-01-29/f7e4a09e-4991-46ba-a95f-8e89c48eea9a.png"
-          alt="Neon Grid"
-          className="w-full h-full object-cover opacity-20"
-        />
+        <div className="absolute inset-0 opacity-35 bg-[radial-gradient(circle_at_top,rgba(98,214,232,0.12),transparent_60%)]" />
+        <div className="absolute inset-0 opacity-25 bg-[linear-gradient(120deg,rgba(245,196,81,0.1),transparent_50%)]" />
       </div>
 
       <motion.div
-        className="relative z-10 text-center"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 1.2 }}
-        transition={{ duration: 0.5 }}
+        className="relative z-10 w-full max-w-2xl"
+        initial="hidden"
+        animate="visible"
+        variants={cinematicSlideIn}
       >
-        <motion.div
-          className="text-cyan-400/80 font-share-tech text-xl mb-4"
-          animate={{ opacity: [0.8, 1, 0.8] }}
-          transition={{ duration: 1, repeat: Infinity }}
-        >
-          ROUND LOADING...
-        </motion.div>
+        <FramePanel className="relative overflow-hidden text-center">
+          <motion.div
+            className="pointer-events-none absolute inset-0"
+            variants={lightSweep}
+            initial="hidden"
+            animate="visible"
+          >
+            <div className="absolute inset-0 bg-[var(--mlbb-gold-sheen)]" />
+          </motion.div>
 
-        <GlitchText className="text-8xl font-orbitron font-black text-cyan-400 mb-4" animate>
-          {roundNumber}/{totalRounds}
-        </GlitchText>
+          <motion.div
+            className="text-[var(--mlbb-muted)] font-share-tech text-sm tracking-[0.4em] mb-4"
+            animate={{ opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: 1.4, repeat: Infinity }}
+          >
+            ROUND BRIEFING
+          </motion.div>
 
-        <motion.h2 
-          className="text-4xl md:text-5xl font-orbitron font-bold text-pink-500 mb-6"
-          initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          {round.title}
-        </motion.h2>
+          <div className="text-6xl md:text-7xl font-orbitron font-black text-[var(--mlbb-gold)] mb-3">
+            {roundNumber}/{totalRounds}
+          </div>
 
-        <motion.div
-          className="text-yellow-400 text-3xl mb-8"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.5, type: 'spring' }}
-        >
-          DIFFICULTY: {round.difficulty}
-        </motion.div>
+          <motion.h2
+            className="text-3xl md:text-4xl font-orbitron font-bold text-[var(--mlbb-text)] mb-4"
+            initial={{ x: -60, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            {round.title}
+          </motion.h2>
 
-        <motion.div
-          className="inline-block border-2 border-cyan-400 px-8 py-3 text-cyan-400 font-rajdhani font-semibold text-lg"
-          animate={{ 
-            boxShadow: [
-              '0 0 20px rgba(0,240,255,0.3)',
-              '0 0 40px rgba(0,240,255,0.6)',
-              '0 0 20px rgba(0,240,255,0.3)',
-            ]
-          }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          PREPARE YOURSELF
-        </motion.div>
+          <motion.div
+            className="text-[var(--mlbb-teal)] text-2xl font-rajdhani font-semibold mb-6"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            DIFFICULTY: {round.difficulty}
+          </motion.div>
+
+          <motion.div
+            className="inline-flex items-center gap-3 border border-[rgba(98,214,232,0.5)] px-8 py-3 text-[var(--mlbb-gold)] font-rajdhani font-semibold text-lg rounded-full bg-[rgba(8,14,32,0.7)]"
+            animate={{ boxShadow: ['0 0 15px rgba(98,214,232,0.2)', '0 0 30px rgba(98,214,232,0.45)', '0 0 15px rgba(98,214,232,0.2)'] }}
+            transition={{ duration: 1.6, repeat: Infinity }}
+          >
+            PREPARE YOURSELF
+          </motion.div>
+        </FramePanel>
       </motion.div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import NeonPanel from './ui/NeonPanel';
+import FramePanel from './ui/FramePanel';
 import NeonButton from './ui/NeonButton';
-import GlitchText from './ui/GlitchText';
+import { cinematicSlideIn, energyBurst, goldShimmer } from '@/lib/animations';
 
 interface VictoryProps {
   playerName: string;
@@ -11,117 +11,77 @@ interface VictoryProps {
 
 export default function Victory({ playerName, totalRounds, onPlayAgain }: VictoryProps) {
   return (
-    <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Victory background */}
+    <div className="min-h-screen mlbb-screen flex items-center justify-center p-4 relative overflow-hidden">
       <div className="absolute inset-0">
-        <img 
-          src="https://mgx-backend-cdn.metadl.com/generate/images/940159/2026-01-29/7ac5bad4-dbd0-43c6-82d1-097104b980df.png"
-          alt="Victory"
-          className="w-full h-full object-cover opacity-40"
-        />
-      </div>
-
-      {/* Animated particles */}
-      <div className="absolute inset-0">
-        {[...Array(30)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-yellow-400 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -200],
-              opacity: [0, 1, 0],
-              scale: [0, 1, 0],
-            }}
-            transition={{
-              duration: 2 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
+        <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top,rgba(98,214,232,0.15),transparent_60%)]" />
+        <div className="absolute inset-0 opacity-30 bg-[linear-gradient(120deg,rgba(245,196,81,0.12),transparent_55%)]" />
       </div>
 
       <motion.div
         className="relative z-10 w-full max-w-3xl"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6 }}
+        initial="hidden"
+        animate="visible"
+        variants={cinematicSlideIn}
       >
-        <motion.div
-          className="text-center mb-8"
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
+        <div className="relative text-center mb-8">
           <motion.div
-            className="text-8xl mb-4"
-            animate={{ 
-              scale: [1, 1.2, 1],
-              rotate: [0, 10, -10, 0]
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute inset-0 flex items-center justify-center"
+            variants={energyBurst}
+            initial="hidden"
+            animate="visible"
           >
-            🏆
+            <div className="h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(245,196,81,0.35),transparent_70%)]" />
           </motion.div>
-          
-          <GlitchText className="text-7xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-pink-500 to-cyan-400 mb-4">
-            RUN COMPLETE
-          </GlitchText>
-          
+
+          <div className="text-7xl md:text-8xl mb-4">🏆</div>
+          <div className="text-5xl md:text-6xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-[var(--mlbb-gold)] via-[var(--mlbb-teal)] to-[var(--mlbb-gold-soft)] mb-3">
+            VICTORY
+          </div>
           <motion.div
-            className="text-2xl text-green-400 font-rajdhani font-bold"
+            className="text-2xl text-[var(--mlbb-teal)] font-rajdhani font-bold"
             animate={{ opacity: [0.8, 1, 0.8] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           >
-            ✓ PERFECT SCORE ACHIEVED
+            ✓ PERFECT RUN ACHIEVED
           </motion.div>
-        </motion.div>
+        </div>
 
-        <NeonPanel glowColor="cyan" className="mb-8">
+        <FramePanel tone="victory" className="mb-8 relative overflow-hidden">
+          <motion.div
+            className="pointer-events-none absolute inset-0"
+            variants={goldShimmer}
+            initial="hidden"
+            animate="visible"
+          >
+            <div className="absolute inset-0 bg-[var(--mlbb-gold-sheen)]" />
+          </motion.div>
           <div className="text-center space-y-6">
             <div>
-              <div className="text-cyan-400/80 font-share-tech text-sm mb-2">
-                CHAMPION
-              </div>
-              <div className="text-4xl font-orbitron font-bold text-white">
-                {playerName}
-              </div>
+              <div className="text-[var(--mlbb-muted)] font-share-tech text-sm mb-2">CHAMPION</div>
+              <div className="text-4xl font-orbitron font-bold text-[var(--mlbb-text)]">{playerName}</div>
             </div>
 
-            <div className="border-t border-cyan-500/30 pt-6">
-              <div className="text-cyan-400/80 font-share-tech text-sm mb-2">
-                FINAL SCORE
-              </div>
+            <div className="border-t border-[rgba(245,196,81,0.3)] pt-6">
+              <div className="text-[var(--mlbb-muted)] font-share-tech text-sm mb-2">FINAL SCORE</div>
               <motion.div
-                className="text-8xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500"
-                animate={{ 
-                  scale: [1, 1.05, 1],
-                  textShadow: [
-                    '0 0 20px rgba(255,190,11,0.5)',
-                    '0 0 40px rgba(255,190,11,0.8)',
-                    '0 0 20px rgba(255,190,11,0.5)',
-                  ]
-                }}
+                className="text-6xl md:text-7xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-[var(--mlbb-gold)] to-[var(--mlbb-teal)]"
+                animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               >
                 {totalRounds}/{totalRounds}
               </motion.div>
             </div>
 
-            <div className="border-t border-cyan-500/30 pt-6">
-              <div className="text-2xl text-pink-500 font-rajdhani font-bold">
+            <div className="border-t border-[rgba(245,196,81,0.3)] pt-6">
+              <div className="text-2xl text-[var(--mlbb-gold)] font-rajdhani font-bold">
                 LEGENDARY MLBB MASTER
               </div>
-              <div className="text-cyan-400 font-rajdhani mt-2">
-                You've proven your knowledge of Mobile Legends!
+              <div className="text-[var(--mlbb-text)] font-rajdhani mt-2">
+                You’ve proven your knowledge of Mobile Legends!
               </div>
             </div>
           </div>
-        </NeonPanel>
+        </FramePanel>
 
         <div className="text-center">
           <NeonButton onClick={onPlayAgain} variant="primary" className="min-w-[250px]">
@@ -130,7 +90,7 @@ export default function Victory({ playerName, totalRounds, onPlayAgain }: Victor
         </div>
 
         <motion.div
-          className="text-center mt-8 text-yellow-400/80 font-share-tech text-sm"
+          className="text-center mt-8 text-[var(--mlbb-gold)]/80 font-share-tech text-sm"
           animate={{ opacity: [0.8, 1, 0.8] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
