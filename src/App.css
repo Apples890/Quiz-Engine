@@ -142,3 +142,78 @@ body {
 * {
   scrollbar-color: #62d6e8 #050812;
 }
+
+/* Answer reveal image framing */
+.mlbb-image-frame {
+  background: radial-gradient(circle at 20% 20%, rgba(245, 196, 81, 0.15), transparent 55%),
+    radial-gradient(circle at 80% 80%, rgba(98, 214, 232, 0.16), transparent 60%),
+    rgba(6, 10, 24, 0.9);
+  border: 1px solid rgba(245, 196, 81, 0.28);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), 0 0 26px rgba(98, 214, 232, 0.35);
+}
+
+.mlbb-image-aspect {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.mlbb-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.05) contrast(1.03);
+}
+
+.mlbb-image-fallback {
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, rgba(20, 32, 78, 0.9), rgba(9, 14, 32, 0.9));
+  border: 1px dashed rgba(245, 196, 81, 0.35);
+}
+
+.mlbb-light-sweep::after {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.35) 45%, rgba(255, 255, 255, 0) 100%);
+  animation: mlbb-shimmer 2.8s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+/* Splash reveal */
+.mlbb-splash-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(245, 196, 81, 0.25);
+  background: #060a18;
+  min-height: 260px;
+}
+
+.mlbb-splash-image {
+  position: relative;
+  width: 100%;
+  padding-top: 65%;
+  background-size: cover;
+  background-position: center;
+  will-change: transform, filter;
+}
+
+.mlbb-splash-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(0, 0, 0, 0.35), transparent 60%);
+  pointer-events: none;
+}
+
+.mlbb-protip-card {
+  background: rgba(15, 22, 46, 0.85);
+  border: 1px solid rgba(245, 196, 81, 0.25);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35), 0 0 16px rgba(98, 214, 232, 0.25);
+  border-radius: 12px;
+  padding: 12px 14px;
+}

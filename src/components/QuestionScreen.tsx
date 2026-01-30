@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { motion, useAnimation } from 'framer-motion';
+import { useState, useEffect, useMemo } from 'react';
 import { QuizRound } from '@/data/quizData';
 import FramePanel from './ui/FramePanel';
 import { audioSystem } from '@/lib/audioSystem';
@@ -15,11 +15,29 @@ interface QuestionScreenProps {
 export default function QuestionScreen({ round, roundNumber, onAnswer, disabled }: QuestionScreenProps) {
   const [displayedText, setDisplayedText] = useState('');
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const controls = useAnimation();
+  const isSplash = round.roundType === 'SPLASH_GUESS';
   const fullText = round.question;
   const isLocked = disabled || selectedOption !== null;
 
+  const revealDuration = round.revealDurationMs ?? 4000;
+  const startZoom = round.startZoom ?? 1.8;
+  const startBlur = round.startBlurPx ?? 0;
+
+  const splashAnimation = useMemo(() => ({
+    scale: [startZoom, 1],
+    filter: [`blur(${startBlur}px)`, 'blur(0px)'],
+    transition: { duration: revealDuration / 1000, ease: 'easeOut' },
+  }), [startBlur, startZoom, revealDuration]);
+
   useEffect(() => {
     let currentIndex = 0;
+    if (isSplash) {
+      setDisplayedText(fullText);
+      controls.start(splashAnimation);
+      return () => controls.stop();
+    }
+
     const interval = setInterval(() => {
       if (currentIndex <= fullText.length) {
         setDisplayedText(fullText.slice(0, currentIndex));
@@ -30,7 +48,7 @@ export default function QuestionScreen({ round, roundNumber, onAnswer, disabled 
     }, 20);
 
     return () => clearInterval(interval);
-  }, [fullText]);
+  }, [fullText, controls, splashAnimation, isSplash]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -58,9 +76,14 @@ export default function QuestionScreen({ round, roundNumber, onAnswer, disabled 
     setSelectedOption(answer);
     audioSystem.playClick();
 
+    if (isSplash) {
+      controls.stop();
+      controls.start({ scale: 1, filter: 'blur(0px)', transition: { duration: 0.2 } });
+    }
+
     setTimeout(() => {
       onAnswer(answer);
-    }, 300);
+    }, 250);
   };
 
   return (
@@ -89,14 +112,26 @@ export default function QuestionScreen({ round, roundNumber, onAnswer, disabled 
         </div>
 
         <FramePanel className="mb-10 text-center">
-          <div className="text-xl md:text-3xl font-rajdhani font-semibold text-[var(--mlbb-text)] min-h-[90px] flex items-center justify-center">
-            {displayedText}
-            <motion.span
-              className="inline-block w-3 h-7 bg-[var(--mlbb-gold)] ml-2"
-              animate={{ opacity: [1, 0, 1] }}
-              transition={{ duration: 0.9, repeat: Infinity }}
-            />
-          </div>
+          {isSplash ? (
+            <div className="mlbb-splash-wrap">
+              <motion.div
+                className="mlbb-splash-image"
+                animate={controls}
+                initial={{ scale: startZoom, filter: `blur(${startBlur}px)` }}
+                style={{ backgroundImage: `url(${round.splashImageUrl})` }}
+              />
+              <div className="mlbb-splash-overlay" aria-hidden />
+            </div>
+          ) : (
+            <div className="text-xl md:text-3xl font-rajdhani font-semibold text-[var(--mlbb-text)] min-h-[90px] flex items-center justify-center">
+              {displayedText}
+              <motion.span
+                className="inline-block w-3 h-7 bg-[var(--mlbb-gold)] ml-2"
+                animate={{ opacity: [1, 0, 1] }}
+                transition={{ duration: 0.9, repeat: Infinity }}
+              />
+            </div>
+          )}
         </FramePanel>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

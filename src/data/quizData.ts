@@ -12,6 +12,12 @@ export interface QuizRound {
   heroName: string;
   heroSubtitle: string;
   proTip: string;
+  imageUrl?: string;
+  splashImageUrl?: string;
+  roundType?: 'STANDARD' | 'SPLASH_GUESS';
+  revealDurationMs?: number;
+  startZoom?: number;
+  startBlurPx?: number;
 }
 
 export const quizRounds: QuizRound[] = [
@@ -30,7 +36,8 @@ export const quizRounds: QuizRound[] = [
     correctAnswer: "A",
     heroName: "NATALIA",
     heroSubtitle: "The Bright Claw",
-    proTip: "Natalia's Cat's Eye passive gives her increased movement speed & invisibility when near grass!"
+    proTip: "Natalia's Cat's Eye passive gives her increased movement speed & invisibility when near grass!",
+    imageUrl: "https://cdn.oneesports.gg/cdn-data/wp-content/uploads/2020/03/MLBB_Natalia.jpg"
   },
   {
     id: 2,
@@ -47,7 +54,8 @@ export const quizRounds: QuizRound[] = [
     correctAnswer: "C",
     heroName: "ODETTE",
     heroSubtitle: "Swan Song",
-    proTip: "Never ult first in teamfights. Wait for enemy CC to be used, or hide in bush/fog. One knock-up = wasted ult."
+    proTip: "Never ult first in teamfights. Wait for enemy CC to be used, or hide in bush/fog. One knock-up = wasted ult.",
+    imageUrl: "https://cdn.oneesports.gg/cdn-data/2021/09/MLBB_Odette.jpg"
   },
   {
     id: 3,
@@ -64,7 +72,8 @@ export const quizRounds: QuizRound[] = [
     correctAnswer: "B",
     heroName: "KARRIE",
     heroSubtitle: "Lost Star",
-    proTip: "Karrie's fast attack speed + true damage makes her perfect for melting tanks & high HP enemies!"
+    proTip: "Karrie's fast attack speed + true damage makes her perfect for melting tanks & high HP enemies!",
+    imageUrl: "https://cdn.oneesports.gg/cdn-data/2023/06/MLBB_Karrie.jpg"
   },
   {
     id: 4,
@@ -81,7 +90,8 @@ export const quizRounds: QuizRound[] = [
     correctAnswer: "B",
     heroName: "LING & WANWAN",
     heroSubtitle: "The Oriental Fighters",
-    proTip: "Ling & Wanwan are siblings from the Oriental Fighters family, masters of ancient combat arts!"
+    proTip: "Ling & Wanwan are siblings from the Oriental Fighters family, masters of ancient combat arts!",
+    imageUrl: "https://i.pinimg.com/564x/fc/c2/76/fcc2767b87f953db50ab2b2e95a68384.jpg"
   },
   {
     id: 5,
@@ -98,7 +108,8 @@ export const quizRounds: QuizRound[] = [
     correctAnswer: "B",
     heroName: "ROGER",
     heroSubtitle: "AUUUUUUU",
-    proTip: "Roger transforms into a werewolf with enhanced abilities under moonlight!"
+    proTip: "Roger transforms into a werewolf with enhanced abilities under moonlight!",
+    imageUrl: "https://gamingonphone.com/wp-content/uploads/2022/01/Mobile-Legends-Roger-Guide-Cover.jpg"
   },
   {
     id: 6,
@@ -108,14 +119,20 @@ export const quizRounds: QuizRound[] = [
     question: "Guess the hero from the splash art",
     options: [
       { label: "A", text: "Fanny" },
-      { label: "B", text: "Gusion" },
+      { label: "B", text: "Kaja" },
       { label: "C", text: "Lancelot" },
       { label: "D", text: "Hayabusa" }
     ],
-    correctAnswer: "A",
-    heroName: "FANNY",
-    heroSubtitle: "The Blade Dancer",
-    proTip: "Fanny's cable mechanics require high skill but offer unmatched mobility!"
+    correctAnswer: "B",
+    heroName: "KAJA",
+    heroSubtitle: "Divine Descendant",
+    proTip: "Dive with Flicker+Ult to displace priority targets. Keep your passive stacks up before engaging.",
+    imageUrl: "https://cdn.oneesports.gg/cdn-data/2023/08/MLBB-Skyblocker-Kaja.jpeg",
+    splashImageUrl: "https://cdn.oneesports.gg/cdn-data/2023/08/MLBB-Skyblocker-Kaja.jpeg",
+    roundType: "SPLASH_GUESS",
+    revealDurationMs: 4500,
+    startZoom: 2.4,
+    startBlurPx: 10
   }
 ];
 
